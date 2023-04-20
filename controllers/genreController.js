@@ -1,6 +1,7 @@
 const Genre = require("../models/genre");
 const asyncHandler = require("express-async-handler");
 const Book = require("../models/book");
+const mongoose = require("mongoose");
 
 // Display list of all Genre.
 exports.genre_list = asyncHandler(async (req, res, next) => {
@@ -14,9 +15,11 @@ exports.genre_list = asyncHandler(async (req, res, next) => {
 // Display detail page for a specific Genre.
 exports.genre_detail = asyncHandler(async (req, res, next) => {
   // Get details of genre and all associated books (in parallel)
+  const id = mongoose.Types.ObjectId(req.params.id);
+
   const [genre, booksInGenre] = await Promise.all([
-    Genre.findById(req.params.id).exec(),
-    Book.find({ genre: req.params.id }, "title summary").exec(),
+    Genre.findById(id).exec(),
+    Book.find({ genre: id }, "title summary").exec(),
   ]);
   if (genre === null) {
     // No results.
