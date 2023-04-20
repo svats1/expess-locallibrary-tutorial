@@ -5,10 +5,10 @@ const mongoose = require("mongoose");
 
 // Display list of all Genre.
 exports.genre_list = asyncHandler(async (req, res, next) => {
-  const allGenres = await Genre.find().sort({ family_name: 1 }).exec();
+  const allGenres = await Genre.find().sort({ name: 1 }).exec();
   res.render("genre_list", {
     title: "Genre List",
-    author_list: allGenres,
+    genre_list: allGenres,
   });
 });
 
